@@ -299,7 +299,7 @@ class OpenSSLConan(ConanFile):
         # https://netix.dl.sourceforge.net/project/msys2/Base/x86_64/msys2-x86_64-20161025.exe
         config_options_string = tools.unix_path(config_options_string)
         if self.settings.build_type == "Debug":
-            config_options_string = "-d " + config_options_string
+            config_options_string = "-g " + config_options_string
         if self.settings.arch == "x86":
             config_line = "./Configure mingw %s" % config_options_string
         else:
