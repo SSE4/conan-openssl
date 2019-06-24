@@ -2,6 +2,13 @@ import requests
 from requests.auth import HTTPBasicAuth
 import os
 import time
+import sys
+
+def do_sleep(count):
+    for i in range(0, count):
+        time.sleep(1)
+        sys.stdout.write(".")
+        sys.stdout.flush()
 
 s = requests.Session()
 
@@ -22,5 +29,5 @@ def make():
 
 
 make()
-time.sleep(60)
+do_sleep(310)
 make()
