@@ -10,9 +10,9 @@ environment:
     CONAN_LOGIN_USERNAME: "conanbot"
     CONAN_CHANNEL: "release"
     CONAN_UPLOAD: "https://api.bintray.com/conan/conan-community/conan"
+    CONAN_UPLOAD_ONLY_WHEN_STABLE: "0"
     CONAN_STABLE_BRANCH_PATTERN: "release/*"
     CONAN_TOTAL_PAGES: 2
-    CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches "release/*"
     CONAN_BUILD_POLICY: "outdated"
 
     matrix:
