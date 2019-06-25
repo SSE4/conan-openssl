@@ -59,7 +59,11 @@ class HTTPAdapterWithSocketOptions(requests.adapters.HTTPAdapter):
             kwargs["socket_options"] = self.socket_options
         super(HTTPAdapterWithSocketOptions, self).init_poolmanager(*args, **kwargs)
 
-adapter = HTTPAdapterWithSocketOptions(socket_options=[(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)])
+
+socket_options=[(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)]
+if hasattr(socket, "SIO_KEEPALIVE_VALS"):
+    print("set SIO_KEEPALIVE_VALS")
+adapter = HTTPAdapterWithSocketOptions(socket_options=socket_options)
 
 s = requests.Session()
 
@@ -87,25 +91,40 @@ hostname = 'bintray.com'
 port = 80
 
 request = b"GET / HTTP/1.1\nHost: %s\n\n" % hostname.encode()
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 if hasattr(socket, "TCP_KEEPIDLE"):
     print("set TCP_KEEPIDLE")
-    s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 120)
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 120)
 if hasattr(socket, "TCP_KEEPINTVL"):
     print("set TCP_KEEPINTVL")
-    s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 30)
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 30)
 if hasattr(socket, "TCP_KEEPCNT"):
     print("set TCP_KEEPCNT")
-    s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 8)
-if hasattr(socket, "SIO_KEEPALIVE_VALS"):
-    print("set SIO_KEEPALIVE_VALS")
-    s.ioctl(socket.SIO_KEEPALIVE_VALS, (1, 120 * 1000, 30 * 1000))
-s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-s.connect((hostname, port))
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 8)
+#if hasattr(socket, "SIO_KEEPALIVE_VALS"):
+#    print("set SIO_KEEPALIVE_VALS")
+#    socket.ioctl(socket.SIO_KEEPALIVE_VALS, (1, 120 * 1000, 30 * 1000))
+
+if os_version.dwMajorVersion == 10 and os_version.dwBuildNumber >= 15063:  # Windows 10 1703
+    TCP_KEEPIDLE = 3
+    TCP_KEEPINTVL = 17
+    print("set TCP_KEEPIDLE (Windows)")
+    sock.setsockopt(socket.IPPROTO_TCP, TCP_KEEPIDLE, 120)
+    print("set TCP_KEEPINTVL (Windows)")
+    sock.setsockopt(socket.IPPROTO_TCP, TCP_KEEPINTVL, 30)
+    pass
+if os_version.dwMajorVersion == 10 and os_version.dwBuildNumber >= 16299:  # Windows 10 1709
+    print("set TCP_KEEPCNT (Windows)")
+    TCP_KEEPCNT = 15
+    sock.setsockopt(socket.IPPROTO_TCP, TCP_KEEPCNT, 8)
+    pass
+
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+sock.connect((hostname, port))
 
 def make2():
-    s.send(request)
-    result = s.recv(10000)
+    sock.send(request)
+    result = sock.recv(10000)
     print(result)
 
 make2()
