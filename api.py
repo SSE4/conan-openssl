@@ -61,8 +61,20 @@ class HTTPAdapterWithSocketOptions(requests.adapters.HTTPAdapter):
 
 
 socket_options=[(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)]
-if hasattr(socket, "SIO_KEEPALIVE_VALS"):
-    print("set SIO_KEEPALIVE_VALS")
+if os_version.dwMajorVersion == 10 and os_version.dwBuildNumber >= 15063:  # Windows 10 1703
+    TCP_KEEPIDLE = 3
+    TCP_KEEPINTVL = 17
+    print("set TCP_KEEPIDLE (Windows)")
+    socket_options.append((socket.IPPROTO_TCP, TCP_KEEPIDLE, 120))
+    print("set TCP_KEEPINTVL (Windows)")
+    socket_options.append((socket.IPPROTO_TCP, TCP_KEEPINTVL, 30))
+    pass
+if os_version.dwMajorVersion == 10 and os_version.dwBuildNumber >= 16299:  # Windows 10 1709
+    print("set TCP_KEEPCNT (Windows)")
+    TCP_KEEPCNT = 15
+    socket_options.append((socket.IPPROTO_TCP, TCP_KEEPCNT, 8))
+    pass
+
 adapter = HTTPAdapterWithSocketOptions(socket_options=socket_options)
 
 s = requests.Session()
@@ -127,6 +139,6 @@ def make2():
     result = sock.recv(10000)
     print(result)
 
-make2()
+make()
 do_sleep(310)
-make2()
+make()
