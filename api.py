@@ -7,6 +7,7 @@ import sys
 import ssl
 import platform
 import ctypes
+import socket
 
 print("sys version", sys.version_info)
 print("platform version", platform.python_version())
@@ -48,7 +49,22 @@ def do_sleep(count):
         sys.stdout.write(".")
         sys.stdout.flush()
 
+class HTTPAdapterWithSocketOptions(requests.adapters.HTTPAdapter):
+    def __init__(self, *args, **kwargs):
+        self.socket_options = kwargs.pop("socket_options", None)
+        super(HTTPAdapterWithSocketOptions, self).__init__(*args, **kwargs)
+
+    def init_poolmanager(self, *args, **kwargs):
+        if self.socket_options is not None:
+            kwargs["socket_options"] = self.socket_options
+        super(HTTPAdapterWithSocketOptions, self).init_poolmanager(*args, **kwargs)
+
+adapter = HTTPAdapterWithSocketOptions(socket_options=[(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)])
+
 s = requests.Session()
+
+s.mount("http://", adapter)
+s.mount("https://", adapter)
 
 def make():
 
