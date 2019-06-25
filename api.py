@@ -8,6 +8,8 @@ import ssl
 import platform
 import ctypes
 import socket
+from requests.adapters import HTTPAdapter
+
 
 print("sys version", sys.version_info)
 print("platform version", platform.python_version())
@@ -75,7 +77,8 @@ if os_version.dwMajorVersion == 10 and os_version.dwBuildNumber >= 16299:  # Win
     socket_options.append((socket.IPPROTO_TCP, TCP_KEEPCNT, 8))
     pass
 
-adapter = HTTPAdapterWithSocketOptions(socket_options=socket_options)
+#adapter = HTTPAdapterWithSocketOptions(socket_options=socket_options)
+adapter = HTTPAdapter(max_retries=3)
 
 s = requests.Session()
 
