@@ -3,7 +3,18 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 variables:
-  CONAN_PASSWORD: 1
+  CONAN_VISUAL_VERSIONS: 16
+  CONAN_REFERENCE: "OpenSSL/1.1.1c"
+  CONAN_USERNAME: "conan"
+  CONAN_LOGIN_USERNAME: "conanbot"
+  CONAN_CHANNEL: "release"
+  CONAN_UPLOAD: "https://api.bintray.com/conan/conan-community/conan"
+  CONAN_UPLOAD_ONLY_WHEN_STABLE: "0"
+  CONAN_STABLE_BRANCH_PATTERN: "release/*"
+  CONAN_TOTAL_PAGES: 2
+  CONAN_BUILD_POLICY: "outdated"
+  CONAN_VERBOSE_TRACEBACK: 1
+  CONAN_LOGGING_LEVEL: 10
 jobs:
 - job: windows2019
   pool:
@@ -17,7 +28,6 @@ jobs:
       pip.exe install conan_package_tools
       pip.exe install git+https://github.com/SSE4/conan.git@connection_reset
       python.exe build.py
-      #python api.py
 - job: win2016
   pool:
     vmImage: 'vs2017-win2016'
@@ -30,5 +40,4 @@ jobs:
       pip.exe install conan_package_tools
       pip.exe install git+https://github.com/SSE4/conan.git@connection_reset
       python.exe build.py
-      #python api.py
 
