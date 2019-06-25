@@ -86,7 +86,7 @@ def make():
 hostname = 'bintray.com'
 port = 80
 
-request = b"GET / HTTP/1.1\nHost: %s\n\n" % hostname
+request = b"GET / HTTP/1.1\nHost: %s\n\n" % hostname.encode()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((hostname, port))
 
