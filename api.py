@@ -52,7 +52,8 @@ s = requests.Session()
 
 def make():
 
-    url = "https://api.bintray.com/conan/conan-community/conan/v1/users/authenticate"
+    #url = "https://api.bintray.com/conan/conan-community/conan/v1/users/authenticate"
+    url = "https://google.com"
 
     headers = {
         'X-Client-Anonymous-Id': '43eaa1e46ddfbeeb50abdcee05c580e260df073f',
