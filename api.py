@@ -83,7 +83,18 @@ def make():
     r = s.get(url, headers=headers, timeout=timeout, auth=auth)
     print(r.status_code)
 
+hostname = 'bintray.com'
+port = 80
 
-make()
+request = b"GET / HTTP/1.1\nHost: %s\n\n" % hostname
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((hostname, port))
+
+def make2():
+    s.send(request)
+    result = s.recv(10000)
+    print(result)
+
+make2()
 do_sleep(310)
-make()
+make2()
