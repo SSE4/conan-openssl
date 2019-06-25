@@ -88,6 +88,15 @@ port = 80
 
 request = b"GET / HTTP/1.1\nHost: %s\n\n" % hostname.encode()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+if hasattr(socket, "TCP_KEEPIDLE"):
+    print("set TCP_KEEPIDLE")
+    s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 120)
+if hasattr(socket, "TCP_KEEPINTVL"):
+    print("set TCP_KEEPINTVL")
+    s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 30)
+if hasattr(socket, "TCP_KEEPCNT"):
+    print("set TCP_KEEPCNT")
+    s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 8)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
 s.connect((hostname, port))
 
