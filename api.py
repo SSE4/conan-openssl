@@ -31,7 +31,16 @@ os_version.dwOSVersionInfoSize = ctypes.sizeof(os_version)
 if hasattr(ctypes, "windll"):
     retcode = ctypes.windll.Ntdll.RtlGetVersion(ctypes.byref(os_version))
 
-    print(os_version)
+    print(os_version.dwMajorVersion,
+          os_version.dwMinorVersion,
+          os_version.dwBuildNumber,
+          os_version.dwPlatformId,
+          os_version.szCSDVersion,
+          os_version.wServicePackMajor,
+          os_version.wServicePackMinor,
+          os_version.wSuiteMask,
+          os_version.wProductType,
+          os_version.wReserved)
 
 def do_sleep(count):
     for i in range(0, count):

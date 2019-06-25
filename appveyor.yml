@@ -2,7 +2,6 @@ build: false
 
 environment:
         #    PYTHON: "C:\\Python27"
-    PYTHON_HOME: "C:\\Python37"
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
 
@@ -20,8 +19,33 @@ environment:
 
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+          PYTHON_HOME: "C:\\Python37"
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          PYTHON_HOME: "C:\\Python37"
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python27"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python27-x64"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python33"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python33-x64"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python34"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python34-x64"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python35"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python35-x64"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python36"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python36-x64"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python37"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          PYTHON_HOME: "C:\\Python37-x64"
           #CONAN_VISUAL_VERSIONS: 16
           #CONAN_ARCHS: x86
           #CONAN_BUILD_TYPES: Release
