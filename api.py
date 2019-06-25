@@ -88,6 +88,7 @@ port = 80
 
 request = b"GET / HTTP/1.1\nHost: %s\n\n" % hostname.encode()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
 s.connect((hostname, port))
 
 def make2():
