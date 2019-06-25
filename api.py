@@ -97,6 +97,9 @@ if hasattr(socket, "TCP_KEEPINTVL"):
 if hasattr(socket, "TCP_KEEPCNT"):
     print("set TCP_KEEPCNT")
     s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 8)
+if hasattr(socket, "SIO_KEEPALIVE_VALS"):
+    print("set SIO_KEEPALIVE_VALS")
+    s.ioctl(SIO_KEEPALIVE_VALS, (1, 120 * 1000, 30 * 1000))
 s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
 s.connect((hostname, port))
 
