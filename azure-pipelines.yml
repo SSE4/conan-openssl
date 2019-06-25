@@ -10,6 +10,8 @@ jobs:
     vmImage: 'windows-2019'
   steps:
   - script: |
+      reg query HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Tcpip\Parameters /v KeepAliveTime || echo ignore
+      reg query HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Tcpip\Parameters /v KeepAliveInterval || echo ignore
       pip.exe install requests
       pip.exe freeze
       python api.py
@@ -18,6 +20,8 @@ jobs:
     vmImage: 'vs2017-win2016'
   steps:
   - script: |
+      reg query HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Tcpip\Parameters /v KeepAliveTime || echo ignore
+      reg query HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Tcpip\Parameters /v KeepAliveInterval || echo ignore
       pip.exe install requests
       pip.exe freeze
       python api.py
@@ -26,6 +30,8 @@ jobs:
     vmImage: 'vs2015-win2012r2'
   steps:
   - script: |
+      reg query HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Tcpip\Parameters /v KeepAliveTime || echo ignore
+      reg query HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Tcpip\Parameters /v KeepAliveInterval || echo ignore
       pip.exe install requests
       pip.exe freeze
       python api.py
