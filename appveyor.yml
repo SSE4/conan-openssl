@@ -53,6 +53,8 @@ environment:
 
 install:
     #- set PATH=%PATH%;%PYTHON%/Scripts/
+  - reg query HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Tcpip\Parameters /v KeepAliveTime || echo ignore
+  - reg query HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Tcpip\Parameters /v KeepAliveInterval || echo ignore
   - set PATH=%PYTHON_HOME%;%PYTHON_HOME%/Scripts/;%PATH%
   - pip.exe install requests
   - pip.exe freeze
